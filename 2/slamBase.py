@@ -66,6 +66,6 @@ def imageToPointCloud(RGBFilename, DepthFilename, CloudFilename, camera):
 	addColorToPCDFile(CloudFilename, colors)
 
 if __name__ == '__main__':
-	CameraIntrinsicData = readyaml.parseYamlFile('./calibration_data/artras/camera.yml')
+	CameraIntrinsicData = readyaml.parseYamlFile('./calibration_data/asus/camera.yml')
 	camera = CameraIntrinsicParameters(CameraIntrinsicData[0][2], CameraIntrinsicData[1][2], CameraIntrinsicData[0][0], CameraIntrinsicData[1][1], 1000.0)
 	imageToPointCloud('rgb.png', 'depth.png', 'cloud1.pcd', camera)

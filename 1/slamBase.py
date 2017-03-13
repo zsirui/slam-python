@@ -69,6 +69,6 @@ if __name__ == '__main__':
 	CameraIntrinsicData = readyaml.parseYamlFile('./calibration_data/artras/camera.yml')
 	camera = CameraIntrinsicParameters(CameraIntrinsicData[0][2], CameraIntrinsicData[1][2], CameraIntrinsicData[0][0], CameraIntrinsicData[1][1], 1000.0)
 	imageToPointCloud('./data/artras/rgb.png', './data/artras/depth.png', './data/artras/cloud.pcd', camera)
-	CameraIntrinsicData = readyaml.parseYamlFile('./calibration_data/asua/camera.yml')
+	CameraIntrinsicData = readyaml.parseYamlFile('./calibration_data/asus/camera.yml')
 	camera = CameraIntrinsicParameters(CameraIntrinsicData[0][2], CameraIntrinsicData[1][2], CameraIntrinsicData[0][0], CameraIntrinsicData[1][1], 1000.0)
-	imageToPointCloud('./data/asua/rgb.png', './data/asua/depth.png', './data/asua/cloud.pcd', camera)
+	imageToPointCloud('./data/asus/rgb.png', './data/asus/depth.png', './data/asus/cloud.pcd', camera)

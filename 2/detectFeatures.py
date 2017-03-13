@@ -103,7 +103,7 @@ def computeMatches(rgb1, rgb2, depth1, depth2, CameraIntrinsicData, distCoeffs, 
 def main():
 	rgbfilenames = ('./data/rgb1.png', './data/rgb2.png')
 	depthfilenames = ('./data/depth1.png', './data/depth2.png')
-	CameraIntrinsicData, DistortionCoefficients = readyaml.parseYamlFile('./calibration_data/artras/camera.yml')
+	CameraIntrinsicData, DistortionCoefficients = readyaml.parseYamlFile('./calibration_data/asus/camera.yml')
 	camera = CameraIntrinsicParameters(CameraIntrinsicData[0][2], CameraIntrinsicData[1][2], CameraIntrinsicData[0][0], CameraIntrinsicData[1][1], 1000.0)
 	rgbs, depths = readImgFiles(rgbfilenames, depthfilenames, cv2.COLOR_BGR2GRAY)
 	computeMatches(rgbs[0], rgbs[1], depths[0], depths[1], CameraIntrinsicData, DistortionCoefficients, camera)
