@@ -4,25 +4,27 @@
 import cv2
 import numpy as np
 
-width = 1240
-height = 1754
+WIDTH = 1240
+HEIGHT = 1754
+RGB_BLACK = [0, 0, 0]
+RGB_WHITE = [255, 255, 255]
 
 row = []
 col = []
 
-for rows in range(0, width):
-	for cols in range(0, height):
+for rows in range(0, WIDTH):
+	for cols in range(0, HEIGHT):
 		if (76 < cols < 1677) and (19 < rows < 1220):
 			if (((cols - 77) / 200) % 2 != 0) and (((rows - 20) / 200) % 2 != 0):
-				col.append([0, 0, 0])
+				col.append(RGB_BLACK)
 			if (((cols - 77) / 200) % 2 == 0) and (((rows - 20) / 200) % 2 == 0):
-				col.append([0, 0, 0])
+				col.append(RGB_BLACK)
 			if (((cols - 77) / 200) % 2 != 0) and (((rows - 20) / 200) % 2 == 0):
-				col.append([255, 255, 255])
+				col.append(RGB_WHITE)
 			if (((cols - 77) / 200) % 2 == 0) and (((rows - 20) / 200) % 2 != 0):
-				col.append([255, 255, 255])
+				col.append(RGB_WHITE)
 		else:
-			col.append([255, 255, 255])
+			col.append(RGB_WHITE)
 	row.append(col)
 	col = []
 
