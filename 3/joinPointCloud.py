@@ -12,7 +12,9 @@ CloudFilename = './data/cloud.pcd'
 
 CameraIntrinsicData, DistortionCoefficients = readyaml.parseYamlFile(CalibrationDataFile)
 camera = slamBase.CameraIntrinsicParameters(CameraIntrinsicData[0][2], CameraIntrinsicData[1][2], CameraIntrinsicData[0][0], CameraIntrinsicData[1][1], 1000.0)
-pnp = slamBase.SolvePnP(RGBFileNameList, DepthFileNameList, DistortionCoefficients, CameraIntrinsicData, camera)
+frame1 = slamBase.Frame(RGBFileNameList[0], DepthFileNameList[0])
+frame2 = slamBase.Frame(RGBFileNameList[1], DepthFileNameList[1])
+pnp = slamBase.SolvePnP(DistortionCoefficients, CameraIntrinsicData, camera, frame1, frame2)
 
 p0, c0 = slamBase.imageToPointCloud(RGBFileNameList[0], DepthFileNameList[0], camera)
 p1, c1 = slamBase.imageToPointCloud(RGBFileNameList[1], DepthFileNameList[1], camera)

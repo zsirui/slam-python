@@ -5,6 +5,26 @@ import cv2
 import numpy as np
 import pcl
 
+class Frame(object):
+	"""docstring for Frame"""
+	def __init__(self, RGBFilename, DepthFilename):
+		super(Frame, self).__init__()
+		self.rgb = self.ReadImg(RGBFilename)
+		self.depth = self.ReadImg(DepthFilename)
+		self.kps, self.des = self.ComputeKPointsAndDescriptors(self.rgb)
+
+	def ReadImg(self, filename):
+		if 'depth' in filename:
+			img = cv2.imread(filename)
+			return cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+		else:
+			return cv2.imread(filename)
+
+	def ComputeKPointsAndDescriptors(self, rgb):
+		sift = cv2.xfeatures2d.SIFT_create()
+		kps, des = sift.detectAndCompute(rgb, None)
+		return kps, des
+
 class CameraIntrinsicParameters(object):
 	"""docstring for CameraIntrinsicParameters"""
 	def __init__(self, cx, cy, fx, fy, scale):
@@ -17,15 +37,14 @@ class CameraIntrinsicParameters(object):
 
 class SolvePnP(object):
 	"""docstring for SolvePnP"""
-	def __init__(self, RGBFileNameList, DepthFileNameList, distCoeffs, CameraIntrinsicData, camera):
+	def __init__(self, distCoeffs, CameraIntrinsicData, camera, frame1, frame2):
 		super(SolvePnP, self).__init__()
-		self.RGBFileNameList = RGBFileNameList
-		self.DepthFileNameList = DepthFileNameList
 		self.distCoeffs = distCoeffs
 		self.CameraIntrinsicData = CameraIntrinsicData
 		self.camera = camera
-		self.rgbs, self.depths = self.readImgFiles(self.RGBFileNameList, self.DepthFileNameList, cv2.COLOR_BGR2GRAY)
-		self.rvec, self.tvec, self.inliers = self.ResultOfPnP(self.rgbs[0], self.rgbs[1], self.depths, self.distCoeffs, self.CameraIntrinsicData, self.camera)
+		self.frame1 = frame1
+		self.frame2 = frame2
+		self.rvec, self.tvec, self.inliers = self.ResultOfPnP(self.frame1.kps, self.frame2.kps, self.frame1.des, self.frame2.des, self.frame1.depth, self.distCoeffs, self.CameraIntrinsicData, self.camera)
 		self.T = self.transformMatrix(self.rvec, self.tvec)
 
 	def transformMatrix(self, rvec, tvec):
@@ -37,25 +56,7 @@ class SolvePnP(object):
 		T = np.vstack((c, temp))
 		return T
 
-	def readImgFiles(self, RGBFilenames, DepthFilenames, paras):
-		rgbs = []
-		depths = []
-		for i in range(0, len(RGBFilenames)):
-			rgbs.append(cv2.imread(RGBFilenames[i]))
-		for j in range(0, len(DepthFilenames)):
-			depth = cv2.imread(DepthFilenames[i], paras)
-			# ROS中rqt保存的深度摄像头的图片是rgb格式，需要转换成单通道灰度格式
-			if len(depth[0][0]) == 3:
-				depths.append(cv2.cvtColor(depth, cv2.COLOR_BGR2GRAY))
-			else:
-				depths.append(depth)
-		return rgbs, depths
-
-	def ResultOfPnP(self, rgb1, rgb2, depth, distCoeffs, CameraIntrinsicData, camera):
-		sift = cv2.xfeatures2d.SIFT_create()
-		kp1, des1 = sift.detectAndCompute(rgb1, None)
-		kp2, des2 = sift.detectAndCompute(rgb2, None)
-
+	def ResultOfPnP(self, kp1, kp2, des1, des2, depth, distCoeffs, CameraIntrinsicData, camera):
 		FLANN_INDEX_KDTREE = 0
 		index_params = dict(algorithm = FLANN_INDEX_KDTREE, trees = 5)
 		search_params = dict(checks = 50)   # or pass empty dictionary
@@ -78,7 +79,7 @@ class SolvePnP(object):
 
 		for i in range(0, len(goodMatches)):
 			p = kp1[goodMatches[i].queryIdx].pt
-			d = depth[0][int(p[1])][int(p[0])]
+			d = depth[int(p[1])][int(p[0])]
 			if d == 0:
 				pass
 			else:
