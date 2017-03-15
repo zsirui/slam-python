@@ -109,7 +109,6 @@ def addColorToPCDFile(filename, colors):
 
 def transformPointCloud(src, T):
 	pointcloud = []
-	out = pcl.PointCloud()
 	for item in src:
 		a = list(item)
 		a.append(1)
