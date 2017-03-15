@@ -23,6 +23,3 @@ def parseYamlFile(filename):
 	CameraIntrinsicData = np.array(x['camera_matrix']['data'], dtype = np.float32)
 	DistortionCoefficients = np.array(x['distortion_coefficients']['data'], dtype = np.float32)
 	return (CameraIntrinsicData.reshape(3, 3), DistortionCoefficients)
-
-if __name__ == '__main__':
-	print(parseYamlFile(sys.argv[1]))
