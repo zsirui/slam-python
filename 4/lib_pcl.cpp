@@ -62,6 +62,10 @@ BOOST_PYTHON_MODULE(lib_pcl)
 		.def_readwrite("x", &pcl::PointXYZRGBA::x)
 		.def_readwrite("y", &pcl::PointXYZRGBA::y)
 		.def_readwrite("z", &pcl::PointXYZRGBA::z)
+		.def_readwrite("r", &pcl::PointXYZRGBA::r)
+		.def_readwrite("g", &pcl::PointXYZRGBA::g)
+		.def_readwrite("b", &pcl::PointXYZRGBA::b)
+		.def_readwrite("a", &pcl::PointXYZRGBA::a)
 		.def_readwrite("rgba", &pcl::PointXYZRGBA::rgba);
 	// class_<pcl::visualization::CloudViewer, boost::noncopyable>("CloudViewer", init<std::string>())
 	// 	.def("showCloud", (void (*)(pcl::visualization::CloudViewer::ColorCloud::ConstPtr, std::string&))&pcl::visualization::CloudViewer::showCloud, showCloud_overloads());
