@@ -13,7 +13,8 @@ TARGET = lib_pcl
 
 # make this a so library
 $(TARGET).so : $(OBJ)
-	g++ -shared -Wl,--export-dynamic $(OBJ) -L$(BOOST_LIB) -lboost_python -L$(PYTHON_CONFIG) -lpython2.7 -o $(TARGET).so
+	g++ -c -fPIC $(TARGET).cpp -o $(TARGET).o
+	g++ -shared -Wl,-soname,lib_pcl.so -o lib_pcl.so  lib_pcl.o -lpython2.7 -lboost_python -lboost_system
 
 %.o : %.cpp
 	g++ -I$(PYTHON_INC) -I$(BOOST_INC) -fPIC -o $@ -c $<
