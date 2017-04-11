@@ -1,5 +1,4 @@
 #include <iostream>
-#include <iomanip>
 
 //PCL
 #include <pcl/io/io.h>
@@ -25,6 +24,7 @@ typedef pcl::PointXYZRGBA PointT;
 typedef pcl::PointCloud<PointT> PointCloud;
 typedef boost::shared_ptr < pcl::PointXYZRGBA > PointXYZRGBA_ptr;
 typedef boost::shared_ptr < PointCloud::Ptr > PointCloud_ptr;
+typedef std::vector<PointT, Eigen::aligned_allocator<PointT> > VectorType;
 
 PointT toPointXYZRGBA(long double x, long double y, long double z, uint8_t r, uint8_t g, uint8_t b);
 void showList(const boost::python::list& pyList);
@@ -60,6 +60,7 @@ BOOST_PYTHON_MODULE(lib_pcl)
 		.def_readwrite("seq", &pcl::PCLHeader::seq)
 		.def_readwrite("stamp", &pcl::PCLHeader::stamp)
 		.def_readwrite("frame_id", &pcl::PCLHeader::frame_id);
+
 	class_<pcl::PointXYZRGBA>("PointXYZRGBA")
 		.def_readwrite("x", &pcl::PointXYZRGBA::x)
 		.def_readwrite("y", &pcl::PointXYZRGBA::y)
@@ -69,6 +70,9 @@ BOOST_PYTHON_MODULE(lib_pcl)
 		.def_readwrite("b", &pcl::PointXYZRGBA::b)
 		.def_readwrite("a", &pcl::PointXYZRGBA::a)
 		.def_readwrite("rgba", &pcl::PointXYZRGBA::rgba);
+
+	class_<VectorType>("VectorType", init<>());
+
 	class_<PointCloud>("PointCloud", init<>())
 		.def_readwrite("width", &PointCloud::width)
 		.def_readwrite("height", &PointCloud::height)
