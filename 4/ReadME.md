@@ -9,8 +9,6 @@ Python 2.7.6 (default, Oct 26 2016, 20:30:19)
 [GCC 4.8.4] on linux2
 Type "help", "copyright", "credits" or "license" for more information.
 >>> import lib_pcl
->>> help(lib_pcl)
-
 >>> PointT = lib_pcl.PointXYZRGBA()
 >>> PointT.x = 1
 >>> PointT.y = 2
