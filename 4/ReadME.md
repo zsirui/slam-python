@@ -1,4 +1,4 @@
-在命令行中输入以下命令将lib_pcl.cpp便宜成python可调用的.so库：
+在命令行中输入以下命令将lib_pcl.cpp编译成python可调用的.so库：
 
 ```
 g++ -c -fPIC lib_pcl.cpp -o lib_pcl.o
