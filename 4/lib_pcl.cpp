@@ -53,11 +53,9 @@ void showList(const boost::python::list& pyList)
 
 typedef boost::shared_ptr < pcl::PointXYZRGBA > PointXYZRGBA_ptr;
 typedef boost::shared_ptr < PointCloud::Ptr > PointCloud_ptr;
-// BOOST_PYTHON_FUNCTION_OVERLOADS(showCloud_overloads,pcl::visualization::CloudViewer::showCloud, 1,2);
 BOOST_PYTHON_MODULE(lib_pcl)
 {
 	def("showList", showList);
-	// def("toPointXYZRGBA", toPointXYZRGBA, return_value_policy<reference_existing_object>());
 	class_<pcl::PointXYZRGBA>("PointXYZRGBA")
 		.def_readwrite("x", &pcl::PointXYZRGBA::x)
 		.def_readwrite("y", &pcl::PointXYZRGBA::y)
@@ -67,6 +65,14 @@ BOOST_PYTHON_MODULE(lib_pcl)
 		.def_readwrite("b", &pcl::PointXYZRGBA::b)
 		.def_readwrite("a", &pcl::PointXYZRGBA::a)
 		.def_readwrite("rgba", &pcl::PointXYZRGBA::rgba);
+	class_<PointCloud>("PointCloud", init<>())
+		.def_readwrite("width", &PointCloud::width)
+		.def_readwrite("height", &PointCloud::height)
+		.def_readwrite("is_dense", &PointCloud::is_dense)
+		.def_readwrite("header", &PointCloud::header)
+		.def_readwrite("points", &PointCloud::points)
+		.def("push_back", &PointCloud::push_back)
+		.def("clear", &PointCloud::clear);
 	// class_<pcl::visualization::CloudViewer, boost::noncopyable>("CloudViewer", init<std::string>())
 	// 	.def("showCloud", (void (*)(pcl::visualization::CloudViewer::ColorCloud::ConstPtr, std::string&))&pcl::visualization::CloudViewer::showCloud, showCloud_overloads());
 	register_ptr_to_python <PointXYZRGBA_ptr>();
