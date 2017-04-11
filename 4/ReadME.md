@@ -1,3 +1,15 @@
+#ReadME
+
+### pcl库python的简易接口
+
+目前实现的接口如下：
+
+* PointCloud类
+* PointXYZRGBA类
+* PCLHeader类
+
+### 编译链接方法：
+
 在命令行中输入以下命令将lib_pcl.cpp编译成python可调用的.so库：
 
 ```
