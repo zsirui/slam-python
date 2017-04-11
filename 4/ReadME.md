@@ -1,8 +1,11 @@
-`g++ -c -fPIC lib_pcl.cpp -o lib_pcl.o`
+在命令行中输入以下命令将lib_pcl.cpp便宜成python可调用的.so库：
 
-`g++ -shared -Wl,-soname,lib_pcl.so -o lib_pcl.so  lib_pcl.o -lpython2.7 -lboost_python -lboost_system`
+```
+g++ -c -fPIC lib_pcl.cpp -o lib_pcl.o
+g++ -shared -Wl,-soname,lib_pcl.so -o lib_pcl.so  lib_pcl.o -lpython2.7 -lboost_python -lboost_system
+```
 
-将lib_pcl.cpp编译成lib_pcl.so之后，在python命令行中输入以下命令测试：
+编译之后，在python命令行中输入以下命令测试：
 
 ```
 Python 2.7.6 (default, Oct 26 2016, 20:30:19) 
