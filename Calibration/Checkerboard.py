@@ -15,13 +15,11 @@ col = []
 for rows in range(0, WIDTH):
 	for cols in range(0, HEIGHT):
 		if (76 < cols < 1677) and (19 < rows < 1220):
-			if (((cols - 77) / 200) % 2 != 0) and (((rows - 20) / 200) % 2 != 0):
+			if (int((cols - 77) / 200) % 2 != 0) and (int((rows - 20) / 200) % 2 != 0):
 				col.append(RGB_BLACK)
-			if (((cols - 77) / 200) % 2 == 0) and (((rows - 20) / 200) % 2 == 0):
+			elif (int((cols - 77) / 200) % 2 == 0) and (int((rows - 20) / 200) % 2 == 0):
 				col.append(RGB_BLACK)
-			if (((cols - 77) / 200) % 2 != 0) and (((rows - 20) / 200) % 2 == 0):
-				col.append(RGB_WHITE)
-			if (((cols - 77) / 200) % 2 == 0) and (((rows - 20) / 200) % 2 != 0):
+			else:
 				col.append(RGB_WHITE)
 		else:
 			col.append(RGB_WHITE)
